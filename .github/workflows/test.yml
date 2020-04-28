@@ -1,0 +1,36 @@
+name: "Build and test"
+on:
+  pull_request:
+  push:
+    branches:
+    - master
+
+jobs:
+  build-setup-immersivekorean:
+    name: Build setup-immersivekorean
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+      name: Checkout repository
+    - working-directory: setup-immersivekorean
+      name: Run full build
+      run: |
+        npm install
+        npm run all
+  test-setup-immersivekorean:
+    name: Test setup-immersivekorean
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+      name: Checkout repository
+    - uses: ./setup-immersivekorean
+      name: Setup ImmersiveKorean environment
+      with:
+        kubectl: 1.16.2
+        gomplate: 3.6.0
+    - name: Validate environment
+      env:
+        GOMPLATE_VERSION: 3.6.0
+      run: |
+        kubectl version
+        echo -n "Successfully installed version {{ .Env.GOMPLATE_VERSION }} of Gomplate." | gomplate

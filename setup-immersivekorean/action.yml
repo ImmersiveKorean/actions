@@ -1,0 +1,15 @@
+name: "setup-immersivekorean"
+description: "Setup an environment that provides all required tools and configurations for ImmersiveKorean projects."
+author: "Jordy Ruiter"
+inputs:
+  kubectl:
+    description: "Version of kubectl to use that should match the cluster version. Example format: 1.16.2"
+    default: "1.16.2"
+    required: true
+  gomplate:
+    description: "Version of gomplate to use. Example format: 3.6.0"
+    default: "3.6.0"
+    required: true
+runs:
+  using: "node12"
+  main: "dist/index.js"
